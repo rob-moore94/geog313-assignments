@@ -62,3 +62,22 @@ def nearest_neighbor(target, locations):
     return nearest_name, nearest_distance
 # produce output table for nearest neighbor
 nearest_table = []
+
+# miles and kilometers table
+for location in locations:
+    nearest_name, nearest_distance = nearest_neighbor(location, locations)
+
+    nearest_miles = nearest_distance * 0.621371 #conversion factor from km to miles
+
+    nearest_table.append([
+        location[0],
+        nearest_name,
+        nearest_distance,
+        nearest_miles
+    ])
+# print table
+print(tabulate(
+    nearest_table,
+    headers=["Location", "Nearest Neighbor", "Distance (km)", "Distance (miles)"],
+    floatfmt=".1f"
+))
