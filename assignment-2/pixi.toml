@@ -5,6 +5,7 @@ platforms = ["osx-arm64", "osx-64", "linux-64"]
 version = "0.1.0"
 
 [tasks]
+distances = "python distance.py"
 
 [dependencies]
 python = ">=3.14.7,<3.15"
