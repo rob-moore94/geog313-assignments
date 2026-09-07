@@ -1,5 +1,5 @@
 from math import radians, sin, cos, asin, sqrt
-from turtle import distance
+from tabulate import tabulate
 
 def haversine(lat1, lon1, lat2, lon2):
     # convert degrees to radians, apply the haversine formula
@@ -19,5 +19,26 @@ def haversine(lat1, lon1, lat2, lon2):
     return distance
 
 if __name__ == "__main__":
-    d = haversine(42.2506, -71.8231, 40.7128, -74.0060)
-    print(f"Distance: {d:.2f} km")
+    locations = [
+        ("lakewood", 41.494092, -81.796620),
+        ("chico", 39.73682, -121.82390),
+        ("san francisco", 37.7749, -122.4194)
+    ]
+
+    # Loop through all unique pairs of locations
+    table = []
+
+    for i in range(len(locations)):
+        for j in range(i + 1, len(locations)):
+            name1, lat1, lon1 = locations[i]
+            name2, lat2, lon2 = locations[j]
+
+            distance = haversine(lat1, lon1, lat2, lon2)
+
+            table.append([name1, name2, distance])
+
+    print(tabulate(
+        table,
+        headers=["Location 1", "Location 2", "Distance (km)"],
+        floatfmt=".1f"
+    ))
