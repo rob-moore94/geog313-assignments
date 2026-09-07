@@ -19,10 +19,13 @@ def haversine(lat1, lon1, lat2, lon2):
     return distance
 
 if __name__ == "__main__":
+    # more locations
     locations = [
         ("lakewood", 41.494092, -81.796620),
         ("chico", 39.73682, -121.82390),
-        ("san francisco", 37.7749, -122.4194)
+        ("san francisco", 37.7749, -122.4194),
+        ("costa rica", 9.78456,-84.57665),
+        ("detroit", 42.34150,-83.07653)
     ]
 
     # Loop through all unique pairs of locations
