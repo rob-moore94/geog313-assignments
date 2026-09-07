@@ -45,3 +45,20 @@ if __name__ == "__main__":
         headers=["Location 1", "Location 2", "Distance (km)"],
         floatfmt=".1f"
     ))
+# Nearest neighbor function
+def nearest_neighbor(target, locations):
+    name1, lat1, lon1 = target
+    nearest_name = None
+    nearest_distance = float('inf')
+
+    for name2, lat2, lon2 in locations:
+        if name2 == name1:
+            continue  # skip the same location
+        distance = haversine(lat1, lon1, lat2, lon2)
+        if distance < nearest_distance:
+            nearest_distance = distance
+            nearest_name = name2
+
+    return nearest_name, nearest_distance
+# produce output table for nearest neighbor
+nearest_table = []
