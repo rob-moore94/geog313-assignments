@@ -1,5 +1,6 @@
 from math import radians, sin, cos, asin, sqrt
 from tabulate import tabulate
+from geopy.distance import geodesic
 
 def haversine(lat1, lon1, lat2, lon2):
     # convert degrees to radians, apply the haversine formula
@@ -16,6 +17,15 @@ def haversine(lat1, lon1, lat2, lon2):
     # and return the distance in kilometers (R = 6371 km)
     R = 6371
     distance = R * c
+    return distance
+
+# geodesic WGS84 distance
+def calculate_distance(lat1, lon1, lat2, lon2):
+    point1 = (lat1, lon1)
+    point2 = (lat2, lon2)
+
+    distance = geodesic(point1, point2).kilometers
+
     return distance
 
 if __name__ == "__main__":
@@ -81,3 +91,21 @@ print(tabulate(
     headers=["Location", "Nearest Neighbor", "Distance (km)", "Distance (miles)"],
     floatfmt=".1f"
 ))
+
+if __name__ == "__main__":
+
+    # your locations, tables, etc. above here
+
+    # Compare Haversine and Geodesic distances
+    y = haversine(
+        41.494092, -81.796620,
+        39.73682, -121.82390
+    )
+
+    x = calculate_distance(
+        41.494092, -81.796620,
+        39.73682, -121.82390
+    )
+
+    print(f"Haversine Distance: {y:.1f} km")
+    print(f"Geodesic Distance: {x:.1f} km")
