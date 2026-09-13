@@ -5,6 +5,14 @@ import math
 
 EARTH_RADIUS_KM = 6371.0
 
+LOCATIONS = [
+    ("New York", 40.7128, -74.0060),
+    ("London", 51.5074, -0.1278),
+    ("Tokyo", 35.6762, 139.6503),
+    ("Sydney", -33.8688, 151.2093),
+    ("Cape Town", -33.9249, 18.4241),
+]
+
 
 def haversine(lat1, lon1, lat2, lon2):
     """Return the great-circle distance between two coordinates in kilometres."""
