@@ -2,8 +2,11 @@
 
 import math
 
+from tabulate import tabulate
+
 
 EARTH_RADIUS_KM = 6371.0
+KM_TO_MILES = 0.621371
 
 LOCATIONS = [
     ("New York", 40.7128, -74.0060),
@@ -35,3 +38,86 @@ def haversine(lat1, lon1, lat2, lon2):
     )
     central_angle = 2 * math.asin(math.sqrt(haversine_angle))
     return EARTH_RADIUS_KM * central_angle
+
+
+def nearest_neighbor(location_name, locations=LOCATIONS):
+    """Return the nearest other location and its distance in km and miles."""
+    location = next(
+        (location for location in locations if location[0] == location_name),
+        None,
+    )
+    if location is None:
+        raise ValueError(f"unknown location: {location_name}")
+
+    _, latitude, longitude = location
+    other_locations = [other for other in locations if other[0] != location_name]
+    if not other_locations:
+        raise ValueError("at least two locations are required")
+
+    nearest_name, nearest_latitude, nearest_longitude = min(
+        other_locations,
+        key=lambda other: haversine(
+            latitude,
+            longitude,
+            other[1],
+            other[2],
+        ),
+    )
+    distance_km = haversine(
+        latitude,
+        longitude,
+        nearest_latitude,
+        nearest_longitude,
+    )
+    return nearest_name, distance_km, distance_km * KM_TO_MILES
+
+
+def print_distance_tables():
+    """Print pairwise distances between all locations in kilometres and miles."""
+    names = [name for name, _, _ in LOCATIONS]
+    kilometer_rows = []
+    mile_rows = []
+
+    for name, latitude, longitude in LOCATIONS:
+        kilometer_row = [name]
+        mile_row = [name]
+        for _, other_latitude, other_longitude in LOCATIONS:
+            kilometers = haversine(
+                latitude,
+                longitude,
+                other_latitude,
+                other_longitude,
+            )
+            kilometer_row.append(kilometers)
+            mile_row.append(kilometers * KM_TO_MILES)
+        kilometer_rows.append(kilometer_row)
+        mile_rows.append(mile_row)
+
+    headers = ["Location", *names]
+    print("Distances (km)")
+    print(tabulate(kilometer_rows, headers=headers, floatfmt=".1f", tablefmt="grid"))
+    print("\nDistances (miles)")
+    print(tabulate(mile_rows, headers=headers, floatfmt=".1f", tablefmt="grid"))
+
+
+def print_nearest_neighbors():
+    """Print the closest location for each location in the list."""
+    rows = []
+    for name, _, _ in LOCATIONS:
+        nearest_name, distance_km, distance_miles = nearest_neighbor(name)
+        rows.append([name, nearest_name, distance_km, distance_miles])
+
+    print("\nNearest neighbors")
+    print(
+        tabulate(
+            rows,
+            headers=["Location", "Closest location", "Distance (km)", "Distance (miles)"],
+            floatfmt=".1f",
+            tablefmt="grid",
+        )
+    )
+
+
+if __name__ == "__main__":
+    print_distance_tables()
+    print_nearest_neighbors()
