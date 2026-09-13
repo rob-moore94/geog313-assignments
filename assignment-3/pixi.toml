@@ -1,0 +1,9 @@
+[workspace]
+channels = ["conda-forge"]
+name = "assignment-3"
+platforms = ["osx-arm64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
