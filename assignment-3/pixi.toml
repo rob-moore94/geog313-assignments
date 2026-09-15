@@ -6,7 +6,7 @@ version = "0.1.0"
 
 [tasks]
 distances = "python distance.py"
-test = "pytest -vv -s"
+test = "pytest -vv -s distance.py"
 
 [dependencies]
 pytest = ">=8,<9"
