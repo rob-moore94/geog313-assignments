@@ -17,13 +17,18 @@ LOCATIONS = [
 ]
 
 
+def normalize_longitude(longitude):
+    """Return a longitude normalized into the inclusive range [-180, 180]."""
+    return ((longitude + 180) % 360) - 180
+
+
 def haversine(lat1, lon1, lat2, lon2):
     """Return the great-circle distance between two coordinates in kilometres."""
     if not -90 <= lat1 <= 90 or not -90 <= lat2 <= 90:
         raise ValueError("latitude must be between -90 and 90 degrees")
 
-    lon1 = ((lon1 + 180) % 360) - 180
-    lon2 = ((lon2 + 180) % 360) - 180
+    lon1 = normalize_longitude(lon1)
+    lon2 = normalize_longitude(lon2)
 
     lat1_radians = math.radians(lat1)
     lat2_radians = math.radians(lat2)
