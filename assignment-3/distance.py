@@ -45,6 +45,14 @@ def haversine(lat1, lon1, lat2, lon2):
     return EARTH_RADIUS_KM * central_angle
 
 
+def total_route_distance(locations=LOCATIONS):
+    """Return the total great-circle distance through locations in order."""
+    return sum(
+        haversine(first[1], first[2], second[1], second[2])
+        for first, second in zip(locations, locations[1:])
+    )
+
+
 def nearest_neighbor(location_name, locations=LOCATIONS):
     """Return the nearest other location and its distance in km and miles."""
     location = next(
@@ -126,3 +134,8 @@ def print_nearest_neighbors():
 if __name__ == "__main__":
     print_distance_tables()
     print_nearest_neighbors()
+    route_distance_km = total_route_distance()
+    print(
+        f"\nTotal route distance: {route_distance_km:.1f} km "
+        f"({route_distance_km * KM_TO_MILES:.1f} miles)"
+    )
