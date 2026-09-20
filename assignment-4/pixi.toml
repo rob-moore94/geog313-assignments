@@ -1,0 +1,14 @@
+[workspace]
+channels = ["conda-forge"]
+name = "assignment-4"
+platforms = ["osx-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+xarray = "2026.7.*"
+pooch = ">=1.9.0,<2"
+netcdf4 = ">=1.7.4,<2"
+matplotlib = ">=3.11.2,<4"
+jupyterlab = ">=4.6.3,<5"
