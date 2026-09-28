@@ -13,8 +13,13 @@ def load_sst():
 
 # define subset region
 def subset_region(ds, lat_bounds, lon_bounds):
+    lat_slice = (
+        slice(lat_bounds[0], lat_bounds[1])
+        if ds.lat[0] < ds.lat[-1]
+        else slice(lat_bounds[1], lat_bounds[0])
+    )
     subset = ds.sel(
-        lat = slice(lat_bounds[0], lat_bounds[1]),
+        lat = lat_slice,
         lon = slice(lon_bounds[0], lon_bounds[1]))
     return subset
 

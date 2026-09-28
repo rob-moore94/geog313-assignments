@@ -8,6 +8,7 @@ version = "0.1.0"
 PYTHONPATH = "$PIXI_PROJECT_ROOT"
 
 [tasks]
+test = "pytest"
 
 [dependencies]
 xarray = "2026.7.*"
@@ -16,3 +17,4 @@ netcdf4 = ">=1.7.4,<2"
 matplotlib = ">=3.11.2,<4"
 jupyterlab = ">=4.6.3,<5"
 scipy = ">=1.15,<2"
+pytest = ">=8,<9"
