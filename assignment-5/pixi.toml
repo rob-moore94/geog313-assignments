@@ -4,6 +4,9 @@ name = "assignment-5"
 platforms = ["osx-arm64", "osx-64", "linux-64"]
 version = "0.1.0"
 
+[activation.env]
+PYTHONPATH = "$PIXI_PROJECT_ROOT"
+
 [tasks]
 
 [dependencies]
