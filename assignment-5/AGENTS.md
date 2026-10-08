@@ -2,9 +2,9 @@ AGENTS.md — Assignment 5
 
 Project Overview - This project uses Python to analyze Sentinel-2 imagery over Fiji, focusing on coordinate reference systems (CRS), reprojection, and cloud-native geospatial processing.
 
-Environment - This is a **Pixi-only project. Use `pixi` for all dependency management and command execution.Do not use pip or conda to install packages.
+Environment - This is a **Pixi-only project. Use "pixi" for all dependency management and command execution.Do not use pip or conda to install packages.
 
-Analysis functions will be written in "src/utils.py". Functions should be pure, reusable, and contain no plotting code. "notebooks/analysis.ipynb" is for calling functions, displaying results, and visualization only. Do not create additional files unless explicitly requested. Do not modify "reflection.md". Do not change existing functions and without approval.
+Analysis functions will be written in "src/utils.py". Functions should be pure, reusable, and contain no plotting code. "notebooks/analysis.ipynb" is for calling functions, displaying results, and visualization only. Do not create additional files unless explicitly requested. Do not modify "reflection.md". Do not change existing functions and without approval. Jupyter Lab extension can be used to access notebooks in VS CODE.
 
 Geospatial criteria:
 - Use the Earth Search STAC API: `https://earth-search.aws.element84.com/v1`.
