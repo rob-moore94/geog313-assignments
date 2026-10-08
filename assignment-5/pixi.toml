@@ -8,6 +8,7 @@ version = "0.1.0"
 PYTHONPATH = "$PIXI_PROJECT_ROOT"
 
 [tasks]
+test = "pytest"
 
 [dependencies]
 pystac-client = ">=0.9.0,<0.10"
@@ -19,3 +20,5 @@ jupyterlab = ">=4.6.4,<5"
 pyproj = ">=3.8.0,<4"
 shapely = ">=2.1.2,<3"
 cartopy = ">=0.26.0,<0.27"
+libgdal-jp2openjpeg = ">=3.13.3,<4"
+pytest = ">=9.1.1,<10"

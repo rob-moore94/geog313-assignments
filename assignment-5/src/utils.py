@@ -72,3 +72,60 @@ def projected_area_km2(geom, target_crs):
     area_m2 = projected_geom.area
     area_km2 = area_m2 / 1e6
     return area_km2
+
+
+def search_best_scene(point, date_range, max_cloud):
+    from pystac_client import Client
+    from shapely.geometry import mapping
+
+    catalog = Client.open("https://earth-search.aws.element84.com/v1")
+    search = catalog.search(
+        collections=["sentinel-2-l2a"],
+        intersects=mapping(point),
+        datetime=date_range,
+        query={"eo:cloud_cover": {"lt": max_cloud}},
+    )
+    items = list(search.items())
+    return min(
+        items,
+        key=lambda item: float(item.properties["eo:cloud_cover"]),
+        default=None,
+    )
+
+
+def clip_asset(item, asset_key, aoi_4326):
+    import rioxarray
+    from pyproj import Transformer
+    from shapely.geometry import mapping
+    from shapely.ops import transform
+
+    asset = item.assets[asset_key]
+    scene_crs = item.properties["proj:code"]
+    transformer = Transformer.from_crs("EPSG:4326", scene_crs, always_xy=True)
+    aoi_scene = transform(transformer.transform, aoi_4326)
+
+    raster = rioxarray.open_rasterio(asset.href, masked=True)
+    return raster.rio.clip(
+        [mapping(aoi_scene)],
+        crs=scene_crs,
+        from_disk=True,
+    )
+
+
+def ndvi(red, nir):
+    import numpy as np
+
+    def mask_nodata(values):
+        nodata = values.attrs.get("_FillValue", values.attrs.get("nodata"))
+        if nodata is None:
+            try:
+                nodata = values.rio.nodata
+            except (AttributeError, ValueError):
+                nodata = None
+        return values if nodata is None else values.where(values != nodata)
+
+    red = mask_nodata(red)
+    nir = mask_nodata(nir)
+    denominator = nir + red
+    valid = np.isfinite(red) & np.isfinite(nir) & (denominator != 0)
+    return ((nir - red) / denominator).where(valid).clip(-1, 1)
