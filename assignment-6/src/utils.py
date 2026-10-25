@@ -30,7 +30,12 @@ def search_items(bbox, start, end, max_cloud):
         datetime=f"{start}/{end}",
         query={"eo:cloud_cover": {"lt": max_cloud}}
     )
-    return search.item_collection()
+    import planetary_computer
+
+    # Planetary Computer assets require a short-lived SAS token for raster
+    # reads. Sign the collection before stackstac builds its lazy readers so
+    # the eventual Dask tasks can access the imagery.
+    return planetary_computer.sign(search.item_collection())
 
 def dedupe_items(items, mgrs_tile):
     unique_items = {}
