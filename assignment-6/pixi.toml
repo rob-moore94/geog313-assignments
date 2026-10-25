@@ -1,9 +1,25 @@
 [workspace]
 channels = ["conda-forge"]
 name = "assignment-6"
-platforms = ["osx-64"]
+platforms = ["osx-arm64", "osx-64", "linux-64"]
 version = "0.1.0"
 
 [tasks]
 
+[activation.env]
+PYTHONPATH="${PIXI_PROJECT_ROOT}"
+
 [dependencies]
+pystac-client = ">=0.9.1,<0.10"
+planetary-computer = ">=1.0.0,<2"
+stackstac = ">=0.5.1,<0.6"
+xarray = ">=2026.9.0,<2027"
+dask = ">=2026.8.0,<2027"
+distributed = ">=2026.8.0,<2027"
+bokeh = ">=3.10.0,<4"
+pandas = ">=2.3.3,<3"
+pyarrow = ">=25.0.0,<26"
+s3fs = ">=2026.9.0,<2027"
+pyproj = ">=3.8.0,<4"
+matplotlib = ">=3.11.2,<4"
+jupyterlab = ">=4.6.4,<5"
