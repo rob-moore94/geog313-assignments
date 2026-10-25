@@ -5,6 +5,7 @@ platforms = ["osx-arm64", "osx-64", "linux-64"]
 version = "0.1.0"
 
 [tasks]
+test = "pytest"
 
 [activation.env]
 PYTHONPATH="${PIXI_PROJECT_ROOT}"
@@ -23,3 +24,5 @@ s3fs = ">=2026.9.0,<2027"
 pyproj = ">=3.8.0,<4"
 matplotlib = ">=3.11.2,<4"
 jupyterlab = ">=4.6.4,<5"
+ipykernel = ">=6,<7"
+pytest = ">=8,<9"
