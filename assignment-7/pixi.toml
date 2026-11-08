@@ -1,0 +1,18 @@
+[workspace]
+channels = ["conda-forge"]
+name = "assignment-7"
+platforms = ["osx-arm64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+dask-geopandas = ">=0.5.0,<0.6"
+geopandas = ">=1.2.0,<2"
+pyarrow = ">=26.0.1,<27"
+dask = ">=2026.8.0,<2027"
+distributed = ">=2026.8.0,<2027"
+matplotlib = ">=3.11.2,<4"
+mapclassify = ">=2.11.0,<3"
+jupyterlab = ">=4.6.6,<5"
+requests = ">=2.34.2,<3"
