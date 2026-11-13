@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import requests
 import dask_geopandas as dgpd
+import dask.dataframe as dd
 
 data_source = "https://data.source.coop/ftw/global-data/predictions/vectors/alpha/results-by-admin-conf/"
 # download the FTW GeoParquet for one country from the path above
@@ -21,9 +22,9 @@ def get_country_fields(country_code, country_name, dest_dir):
 
     # download data if it doesn't exist locally
     url = (
-        f"{data_source}admin:country_code={country_code}./"
-        f"{country_name}/results.parquet"
-    )
+    f"{data_source}admin:country_code={country_code}/"
+    f"{country_name}.parquet"
+)
 
     response = requests.get(url, timeout=120)
     response.raise_for_status()  # Raise an error for bad responses
@@ -35,7 +36,11 @@ def get_country_fields(country_code, country_name, dest_dir):
     return file_path
 # load the country file lazily into Dask-Geopandas and return lazy object
 def load_fields(path):
-    return dgpd.read_parquet(path, split_row_groups="adaptive")
+    return dgpd.read_parquet(
+        path,
+        split_row_groups=True,
+        gather_spatial_partitions=False
+    )
 
 # for a small sample of n fields, compute the area compute the area
 # by reprojecting to an appropriate equal-area or UTM CRS, and compare it 
@@ -54,3 +59,10 @@ def verify_area(gdf, n=10):
     # return a comparison
     comparison = sample_gdf[['computed_area', 'metrics:area']]
     return comparison
+
+# field area distribution
+def field_area_distribution(ddf):
+    areas = ddf['metrics:area']
+    areas = areas[areas > 0]
+    areas = areas.dropna()
+    return areas
